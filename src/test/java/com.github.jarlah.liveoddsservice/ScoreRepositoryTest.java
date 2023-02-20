@@ -63,7 +63,11 @@ public class ScoreRepositoryTest {
         // Then:
         assertScore(score1, sweden, germany, 1, 2, 3);
         assertScore(score2, brazil, norway, 2, 4, 1);
-        assertEquals(2, scoreRepository.getAllScores().size());
+        // Make sure we can get back all the scores in inserted order
+        var allScores = scoreRepository.getAllScores();
+        assertEquals(2, allScores.size());
+        assertScore(allScores.get(0), sweden, germany, 1, 2, 3);
+        assertScore(allScores.get(1), brazil, norway, 2, 4, 1);
     }
 
     @SuppressWarnings("SameParameterValue")
