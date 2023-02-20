@@ -18,3 +18,4 @@ The scoreboard supports the following operations:
 1. Install Java 19 and Maven
 2. Run `mvn compile exec:java -Dexec.mainClass="com.github.jarlah.liveoddsservice.Main"`
 3. Should display started games in order started, then sorted as per specification
+4. Run tests `mvn verify`
