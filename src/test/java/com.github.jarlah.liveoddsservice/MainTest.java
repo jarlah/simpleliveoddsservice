@@ -2,6 +2,7 @@ package com.github.jarlah.liveoddsservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.github.jarlah.liveoddsservice.exceptions.Main;
 import org.junit.jupiter.api.Test;
 
 class MainTest {
