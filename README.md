@@ -4,14 +4,16 @@ A simple Java 19 based cli app with unit tests to facilitate managing and displa
 
 The scoreboard supports the following operations:
 1. [x] Start a new game, assuming initial score 0 – 0 and adding it the scoreboard.
-   This should capture following parameters:
-   a. Home team
-   b. Away team
+   This should capture following parameters: Home team, Away team 
+   - Solved: Starting new game is same as creating a score in the score board repository
 2. [x] Update score. This should receive a pair of absolute scores: home team score and away
-   team score.
+   team score. 
+   - Solved: Updating game takes in immutable teams with new (or unchanged) scores
 3. [x] Finish game currently in progress. This removes a match from the scoreboard.
+   - Solved: Score is deleted
 4. [x] Get a summary of games in progress ordered by their total score. The games with the same
    total score will be returned ordered by the most recently started match in the scoreboard. 
+   - Solved: Collections sorting.
 
 ## How to run
 
