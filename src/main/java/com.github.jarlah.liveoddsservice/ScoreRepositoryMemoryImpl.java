@@ -6,13 +6,18 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * A memory implementation of the {@link ScoreRepository}
+ *
+ * @author Jarl André Hübenthal
+ */
 public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     private AtomicInteger atomicId;
     private LinkedList<Score> scores;
 
     public ScoreRepositoryMemoryImpl() {
         this.scores = new LinkedList<>();
-        this.atomicId = new AtomicInteger(1);
+        this.atomicId = new AtomicInteger(0);
     }
 
     public ScoreRepositoryMemoryImpl(LinkedList<Score> scores) {
@@ -21,7 +26,8 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
 
     @Override
     public Score addScore(Integer homeTeam, Integer awayTeam) {
-        Score score = new Score(this.atomicId.addAndGet(1), homeTeam, awayTeam);
+        Integer nextId = this.atomicId.addAndGet(1);
+        Score score = new Score(nextId, homeTeam, awayTeam);
         this.scores.add(score);
         return score;
     }
@@ -62,6 +68,13 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
         return scoreToDelete;
     }
 
+    /**
+     * Gets the score by id
+     *
+     * @param scoreId the id of the score to get
+     * @return The score
+     * @throws ScoreNotFoundException throws if not found
+     */
     private Score getScore(Integer scoreId) throws ScoreNotFoundException {
         Optional<Score> maybeScore = this.scores.stream()
                 .filter(score -> score.getId().equals(scoreId))

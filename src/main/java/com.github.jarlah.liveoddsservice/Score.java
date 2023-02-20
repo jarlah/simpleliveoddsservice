@@ -1,5 +1,11 @@
 package com.github.jarlah.liveoddsservice;
 
+/**
+ * The score model.
+ * TODO Maybe use lombok to auto generate getters and setters?
+ *
+ * @author Jarl André Hübenthal
+ */
 public class Score {
     private final Integer id;
     private final Integer homeTeam;
