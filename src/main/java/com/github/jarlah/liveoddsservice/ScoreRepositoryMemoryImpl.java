@@ -84,11 +84,8 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * @throws ScoreNotFoundException throws if not found
      */
     private Score unsafeGetScore(Integer scoreId) throws ScoreNotFoundException {
-        var maybeScore = getMaybeScore(scoreId);
-        if (maybeScore.isEmpty()) {
-            throw new ScoreNotFoundException(scoreId);
-        }
-        return maybeScore.get();
+        return getMaybeScore(scoreId)
+                .orElseThrow(() -> new ScoreNotFoundException(scoreId));
     }
 
     @NotNull
