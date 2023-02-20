@@ -23,8 +23,8 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
 
     @Override
     public Score addScore(Team homeTeam, Team awayTeam) {
-        Integer nextId = this.atomicId.addAndGet(1);
-        Score score = new Score(nextId, homeTeam, awayTeam);
+        var nextId = this.atomicId.addAndGet(1);
+        var score = new Score(nextId, homeTeam, awayTeam);
         this.scores.add(score);
         return score;
     }
@@ -44,8 +44,8 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      */
     @Override
     public synchronized Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException {
-        Score scoreToUpdate = unsafeGetScore(scoreId);
-        Score newScore = new Score(scoreId, homeTeam, awayTeam);
+        var scoreToUpdate = unsafeGetScore(scoreId);
+        var newScore = new Score(scoreId, homeTeam, awayTeam);
         this.scores.set(this.scores.indexOf(scoreToUpdate), newScore);
         return newScore;
     }
@@ -60,7 +60,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      */
     @Override
     public Score deleteScore(Integer scoreId) throws ScoreNotFoundException {
-        Score scoreToDelete = unsafeGetScore(scoreId);
+        var scoreToDelete = unsafeGetScore(scoreId);
         this.scores.remove(scoreToDelete);
         return scoreToDelete;
     }
@@ -78,7 +78,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * @throws ScoreNotFoundException throws if not found
      */
     private Score unsafeGetScore(Integer scoreId) throws ScoreNotFoundException {
-        Optional<Score> maybeScore = getMaybeScore(scoreId);
+        var maybeScore = getMaybeScore(scoreId);
         if (maybeScore.isEmpty()) {
             throw new ScoreNotFoundException(scoreId);
         }
