@@ -8,6 +8,7 @@ import java.util.Optional;
 /**
  * The score repository interface.
  * Simple version with no futures.
+ * Will probably need refactoring if a database implementation is to be added.
  *
  * @author Jarl André Hübenthal
  */
@@ -18,4 +19,10 @@ public interface ScoreRepository {
     Optional<Score> getStore(Integer scoreId);
     List<Score> getAllScores();
     List<Score> getAllScoresSorted();
+
+    default void addScore(String homeName, int homeScore, String awayName, int awayScore) {
+        var homeTeam = new Team(homeName, homeScore);
+        var awayTeam = new Team(awayName, awayScore);
+        this.addScore(homeTeam, awayTeam);
+    }
 }

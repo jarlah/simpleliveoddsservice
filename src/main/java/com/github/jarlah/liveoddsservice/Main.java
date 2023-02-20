@@ -2,24 +2,23 @@ package com.github.jarlah.liveoddsservice;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * This Main class shows the completed solution.
+ *
+ * @author Jarl André Hübenthal
+ */
 public class Main {
     public static void main(String[] args) {
         var repo = new ScoreRepositoryMemoryImpl();
-        addScore(repo, "Mexico", 0, "Canada", 5);
-        addScore(repo, "Spain", 10, "Brazil", 2);
-        addScore(repo, "Germany", 2, "France", 2);
-        addScore(repo, "Uruguay", 6, "Italy", 6);
-        addScore(repo, "Argentina", 3, "Australia", 1);
+        repo.addScore("Mexico", 0, "Canada", 5);
+        repo.addScore("Spain", 10, "Brazil", 2);
+        repo.addScore("Germany", 2, "France", 2);
+        repo.addScore("Uruguay", 6, "Italy", 6);
+        repo.addScore("Argentina", 3, "Australia", 1);
         System.out.println("Score board");
         System.out.println(StringUtils.join(repo.getAllScores(), "\n"));
         System.out.println("Score summary");
         System.out.println(StringUtils.join(repo.getAllScoresSorted(), "\n"));
 
-    }
-
-    private static void addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) {
-        var homeTeam = new Team(homeName, homeScore);
-        var awayTeam = new Team(awayName, awayScore);
-        scoreRepository.addScore(homeTeam, awayTeam);
     }
 }

@@ -86,11 +86,11 @@ public class ScoreRepositoryTest {
         var australia = new Team("Australia", 1);
 
         // When:
-        addScore(scoreRepository, mexico.name(), mexico.score(), canada.name(), canada.score());
-        addScore(scoreRepository, spain.name(), spain.score(), brazil.name(), brazil.score());
-        addScore(scoreRepository, germany.name(), germany.score(), france.name(), france.score());
-        addScore(scoreRepository, uruguay.name(), uruguay.score(), italy.name(), italy.score());
-        addScore(scoreRepository, argentina.name(), argentina.score(), australia.name(), australia.score());
+        scoreRepository.addScore(mexico.name(), mexico.score(), canada.name(), canada.score());
+        scoreRepository.addScore(spain.name(), spain.score(), brazil.name(), brazil.score());
+        scoreRepository.addScore(germany.name(), germany.score(), france.name(), france.score());
+        scoreRepository.addScore(uruguay.name(), uruguay.score(), italy.name(), italy.score());
+        scoreRepository.addScore(argentina.name(), argentina.score(), australia.name(), australia.score());
 
         // Then:
         List<Score> sortedScores = scoreRepository.getAllScoresSorted();
