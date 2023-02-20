@@ -6,6 +6,7 @@ import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ScoreRepositoryTest {
@@ -57,8 +58,8 @@ public class ScoreRepositoryTest {
         var norway = new Team("Norway", 1);
 
         // When:
-        var score1 = scoreRepository.addScore(sweden, germany);
-        var score2 = scoreRepository.addScore(brazil, norway);
+        var score1 = addScore(scoreRepository, sweden.name(), sweden.score(), germany.name(), germany.score());
+        var score2 = addScore(scoreRepository, brazil.name(), brazil.score(), norway.name(), norway.score());
 
         // Then:
         assertScore(score1, sweden, germany, 1, 2, 3);
@@ -68,6 +69,30 @@ public class ScoreRepositoryTest {
         assertEquals(2, allScores.size());
         assertScore(allScores.get(0), sweden, germany, 1, 2, 3);
         assertScore(allScores.get(1), brazil, norway, 2, 4, 1);
+    }
+
+    @Test
+    public void returnsSortedScoresAsPerSpecification() {
+        // Given:
+        var uruguay = new Team("Uruguay", 6);
+        var italy = new Team("Italy", 6);
+
+        // When:
+        addScore(scoreRepository, "Mexico", 0, "Canada", 5);
+        addScore(scoreRepository, "Spain", 10, "Brazil", 2);
+        addScore(scoreRepository, "Germany", 2, "France", 2);
+        addScore(scoreRepository, uruguay.name(), uruguay.score(), italy.name(), italy.score());
+        addScore(scoreRepository, "Argentina", 3, "Australia", 1);
+
+        // Then:
+        List<Score> sortedScores = scoreRepository.getAllScoresSorted();
+        assertScore(sortedScores.get(0), uruguay, italy, 4, 6, 6);
+    }
+
+    private static Score addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) {
+        var homeTeam = new Team(homeName, homeScore);
+        var awayTeam = new Team(awayName, awayScore);
+        return scoreRepository.addScore(homeTeam, awayTeam);
     }
 
     @SuppressWarnings("SameParameterValue")

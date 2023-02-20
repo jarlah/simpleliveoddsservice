@@ -10,7 +10,11 @@ class Main {
         addScore(repo, "Germany", 2, "France", 2);
         addScore(repo, "Uruguay", 6, "Italy", 6);
         addScore(repo, "Argentina", 3, "Australia", 1);
+        System.out.println("In order by game started");
         System.out.println(StringUtils.join(repo.getAllScores(), "\n"));
+        System.out.println("Sorted");
+        System.out.println(StringUtils.join(repo.getAllScoresSorted(), "\n"));
+
     }
 
     private static void addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) {

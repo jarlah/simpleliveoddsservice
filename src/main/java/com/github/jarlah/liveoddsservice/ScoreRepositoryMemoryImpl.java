@@ -77,6 +77,11 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
         return new LinkedList<>(this.scores);
     }
 
+    @Override
+    public List<Score> getAllScoresSorted() {
+        return new LinkedList<>(this.scores);
+    }
+
     /**
      * Gets the score by id
      *

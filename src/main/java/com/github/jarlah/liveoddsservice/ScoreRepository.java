@@ -17,4 +17,5 @@ public interface ScoreRepository {
     Score deleteScore(Integer scoreId) throws ScoreNotFoundException;
     Optional<Score> getStore(Integer scoreId);
     List<Score> getAllScores();
+    List<Score> getAllScoresSorted();
 }
