@@ -25,7 +25,7 @@ public class ScoreRepositoryTest {
 
         // When:
         var score1 = scoreRepository.addScore(brazil, norway);
-        var updatedBrazil = new Team(brazil.name(), 1);
+        var updatedBrazil = brazil.withScore(1);
         var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil, norway);
 
         // Then:
