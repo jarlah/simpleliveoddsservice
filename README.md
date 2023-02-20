@@ -21,3 +21,11 @@ The scoreboard supports the following operations:
 2. Run `mvn compile exec:java -Dexec.mainClass="com.github.jarlah.liveoddsservice.Main"`
 3. Should display started games in order started, then sorted as per specification
 4. Run tests `mvn verify`
+
+## About commit history and TDD(test first)
+
+I have not started make tests for simple stuff like models and in memory collection manipulation.
+
+But when i started on the actual import bit in the task, which is the sorted score board, i made test first and then fixed the test.
+
+In addition, the git commit history is not carefully crafted. It is what it is and what I typed into the commit message on command line. In most cases, where you have a big feature, you will have a lot of intermediate commits that doesn't necessarily make sense for anyone else than you. Then you squash these commits and make sense of the commits. Or just add a description in PR and squash the PR when its merged. But mostly I use git for what its worth, doing small intermediate commits and using rebasing a lot. I could have prefixed them with chore: or test: maybe, but it doesn't matter for such small piece of code like this.
