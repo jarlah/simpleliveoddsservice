@@ -63,6 +63,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     @Override
     public Score deleteScore(Integer scoreId) throws ScoreNotFoundException {
         var scoreToDelete = unsafeGetScore(scoreId);
+        // Returned boolean from remove is ignored, so this call is idempotent
         this.scores.remove(scoreToDelete);
         return scoreToDelete;
     }
@@ -83,7 +84,8 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     }
 
     /**
-     * Gets the score by id
+     * Gets the score by id.
+     * This will throw exception if called with id that doesnt exist.
      *
      * @param scoreId the id of the score to get
      * @return The score
