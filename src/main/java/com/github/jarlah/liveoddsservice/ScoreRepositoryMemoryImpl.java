@@ -12,20 +12,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Jarl André Hübenthal
  */
 public class ScoreRepositoryMemoryImpl implements ScoreRepository {
-    private AtomicInteger atomicId;
-    private LinkedList<Score> scores;
+    private final AtomicInteger atomicId;
+    private final LinkedList<Score> scores;
 
     public ScoreRepositoryMemoryImpl() {
         this.scores = new LinkedList<>();
         this.atomicId = new AtomicInteger(0);
     }
 
-    public ScoreRepositoryMemoryImpl(LinkedList<Score> scores) {
-        this.scores = scores;
-    }
-
     @Override
-    public Score addScore(Integer homeTeam, Integer awayTeam) {
+    public Score addScore(Team homeTeam, Team awayTeam) {
         Integer nextId = this.atomicId.addAndGet(1);
         Score score = new Score(nextId, homeTeam, awayTeam);
         this.scores.add(score);
@@ -33,12 +29,12 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     }
 
     /**
-     * In a real world scenario, with a database, i would have used a transaction,
+     * In a real world scenario, with a database, I would have used a transaction,
      * optimally using SELECT FOR READ pattern, in for ex Postgres.
      * But this is in-memory and NOT memory safe, and method is therefore synchronized.
      * Synchronizing methods like this is not a good pattern, but will work for now.
      *
-     * @param scoreId The id of the score to updat
+     * @param scoreId The id of the score to update
      * @param homeTeam the updated score of the home team
      * @param awayTeam the updated score of the away team
      * @return the updated score
@@ -46,7 +42,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * @throws ScoreNotFoundException exception is thrown if scoreId is not found
      */
     @Override
-    public synchronized Score updateScore(Integer scoreId, Integer homeTeam, Integer awayTeam) throws ScoreNotFoundException {
+    public synchronized Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException {
         Score scoreToUpdate = getScore(scoreId);
         Score newScore = new Score(scoreId, homeTeam, awayTeam);
         this.scores.set(this.scores.indexOf(scoreToUpdate), newScore);

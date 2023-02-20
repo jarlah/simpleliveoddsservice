@@ -9,7 +9,7 @@ import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
  * @author Jarl André Hübenthal
  */
 public interface ScoreRepository {
-    Score addScore(Integer homeTeam, Integer awayTeam);
-    Score updateScore(Integer scoreId, Integer homeTeam, Integer awayTeam) throws ScoreNotFoundException;
+    Score addScore(Team homeTeam, Team awayTeam);
+    Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException;
     Score deleteScore(Integer scoreId) throws ScoreNotFoundException;
 }

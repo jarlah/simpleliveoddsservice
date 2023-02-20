@@ -8,20 +8,20 @@ package com.github.jarlah.liveoddsservice;
  */
 public class Score {
     private final Integer id;
-    private final Integer homeTeam;
-    private final Integer awayTeam;
+    private final Team homeTeam;
+    private final Team awayTeam;
 
-    public Score(Integer id, Integer homeTeam, Integer awayTeam) {
+    public Score(Integer id, Team homeTeam, Team awayTeam) {
         this.id = id;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
     }
 
-    public Integer getHomeTeam() {
+    public Team getHomeTeam() {
         return homeTeam;
     }
 
-    public Integer getAwayTeam() {
+    public Team getAwayTeam() {
         return awayTeam;
     }
 
