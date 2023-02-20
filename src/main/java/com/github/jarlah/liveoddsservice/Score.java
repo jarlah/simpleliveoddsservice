@@ -31,6 +31,6 @@ public class Score {
 
     @Override
     public String toString() {
-        return "Score[homeTeam={name:'" + homeTeam.getName() + "',score:" + homeTeam.getScore() + "},awayTeam={name:'" + awayTeam.getName() + ",score:" + awayTeam.getScore() +"}]";
+        return "Score[homeTeam=%s,awayTeam=%s]".formatted(homeTeam.toString(), awayTeam.toString());
     }
 }
