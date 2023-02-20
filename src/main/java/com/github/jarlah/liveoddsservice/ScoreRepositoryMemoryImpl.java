@@ -4,6 +4,7 @@ import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -68,6 +69,11 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     @Override
     public Optional<Score> getStore(Integer scoreId) {
         return getMaybeScore(scoreId);
+    }
+
+    @Override
+    public List<Score> getAllScores() {
+        return new LinkedList<>(this.scores);
     }
 
     /**

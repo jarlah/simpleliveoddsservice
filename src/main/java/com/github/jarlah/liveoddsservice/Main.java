@@ -17,5 +17,8 @@ class Main {
         if (scoreRepository.getStore(score2.id()).isPresent()) {
             throw new RuntimeException();
         }
+        if (scoreRepository.getAllScores().size() > 0) {
+            throw new RuntimeException();
+        }
     }
 }

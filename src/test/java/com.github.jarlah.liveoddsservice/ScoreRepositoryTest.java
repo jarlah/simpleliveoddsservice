@@ -31,6 +31,7 @@ public class ScoreRepositoryTest {
         // Then:
         assertScore(score1, brazil, norway, 1, 0, 1);
         assertScore(score2, updatedBrazil, norway, 1, 1, 1);
+        assertEquals(1, scoreRepository.getAllScores().size());
     }
 
     @Test
@@ -44,6 +45,7 @@ public class ScoreRepositoryTest {
         assertScoreTeam(score.homeTeam(), 2, sweden);
         scoreRepository.deleteScore(score.id());
         assertEquals(Optional.empty(), scoreRepository.getStore(score.id()));
+        assertEquals(0, scoreRepository.getAllScores().size());
     }
 
     @Test
@@ -61,6 +63,7 @@ public class ScoreRepositoryTest {
         // Then:
         assertScore(score1, sweden, germany, 1, 2, 3);
         assertScore(score2, brazil, norway, 2, 4, 1);
+        assertEquals(2, scoreRepository.getAllScores().size());
     }
 
     @SuppressWarnings("SameParameterValue")

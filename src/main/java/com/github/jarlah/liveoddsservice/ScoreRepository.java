@@ -2,6 +2,7 @@ package com.github.jarlah.liveoddsservice;
 
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,4 +16,5 @@ public interface ScoreRepository {
     Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException;
     Score deleteScore(Integer scoreId) throws ScoreNotFoundException;
     Optional<Score> getStore(Integer scoreId);
+    List<Score> getAllScores();
 }
