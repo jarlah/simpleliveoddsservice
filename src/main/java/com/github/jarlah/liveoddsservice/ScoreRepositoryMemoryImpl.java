@@ -3,9 +3,7 @@ package com.github.jarlah.liveoddsservice;
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -36,11 +34,10 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * But this is in-memory and NOT memory safe, and method is therefore synchronized.
      * Synchronizing methods like this is not a good pattern, but will work for now.
      *
-     * @param scoreId The id of the score to update
+     * @param scoreId  The id of the score to update
      * @param homeTeam the updated score of the home team
      * @param awayTeam the updated score of the away team
      * @return the updated score
-     *
      * @throws ScoreNotFoundException exception is thrown if scoreId is not found
      */
     @Override
@@ -80,7 +77,12 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
 
     @Override
     public List<Score> getAllScoresSorted() {
-        return new LinkedList<>(this.scores);
+        var toBeSorted = new LinkedList<>(this.scores);
+        toBeSorted.sort(
+                Comparator.comparing(Score::totalScore, Comparator.reverseOrder())
+                        .thenComparing(Score::id, Comparator.reverseOrder())
+        );
+        return toBeSorted;
     }
 
     /**

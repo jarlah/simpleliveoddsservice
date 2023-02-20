@@ -10,9 +10,9 @@ class Main {
         addScore(repo, "Germany", 2, "France", 2);
         addScore(repo, "Uruguay", 6, "Italy", 6);
         addScore(repo, "Argentina", 3, "Australia", 1);
-        System.out.println("In order by game started");
+        System.out.println("Score board");
         System.out.println(StringUtils.join(repo.getAllScores(), "\n"));
-        System.out.println("Sorted");
+        System.out.println("Score summary");
         System.out.println(StringUtils.join(repo.getAllScoresSorted(), "\n"));
 
     }

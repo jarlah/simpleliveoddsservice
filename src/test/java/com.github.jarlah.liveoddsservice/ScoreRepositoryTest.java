@@ -76,17 +76,29 @@ public class ScoreRepositoryTest {
         // Given:
         var uruguay = new Team("Uruguay", 6);
         var italy = new Team("Italy", 6);
+        var mexico = new Team("Mexico", 0);
+        var canada = new Team("Canada", 5);
+        var spain = new Team("Spain", 10);
+        var brazil = new Team("Brazil", 2);
+        var germany = new Team("Germany", 2);
+        var france = new Team("France", 2);
+        var argentina = new Team("Argentina", 3);
+        var australia = new Team("Australia", 1);
 
         // When:
-        addScore(scoreRepository, "Mexico", 0, "Canada", 5);
-        addScore(scoreRepository, "Spain", 10, "Brazil", 2);
-        addScore(scoreRepository, "Germany", 2, "France", 2);
+        addScore(scoreRepository, mexico.name(), mexico.score(), canada.name(), canada.score());
+        addScore(scoreRepository, spain.name(), spain.score(), brazil.name(), brazil.score());
+        addScore(scoreRepository, germany.name(), germany.score(), france.name(), france.score());
         addScore(scoreRepository, uruguay.name(), uruguay.score(), italy.name(), italy.score());
-        addScore(scoreRepository, "Argentina", 3, "Australia", 1);
+        addScore(scoreRepository, argentina.name(), argentina.score(), australia.name(), australia.score());
 
         // Then:
         List<Score> sortedScores = scoreRepository.getAllScoresSorted();
         assertScore(sortedScores.get(0), uruguay, italy, 4, 6, 6);
+        assertScore(sortedScores.get(1), spain, brazil, 2, 10, 2);
+        assertScore(sortedScores.get(2), mexico, canada, 1, 0, 5);
+        assertScore(sortedScores.get(3), argentina, australia, 5, 3, 1);
+        assertScore(sortedScores.get(4), germany, france, 3, 2, 2);
     }
 
     private static Score addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) {
