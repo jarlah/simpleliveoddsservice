@@ -9,6 +9,11 @@ public class Team {
         this.score = score;
     }
 
+    public Team(Team team, Integer score) {
+        this.name = team.name;
+        this.score = score;
+    }
+
     public Integer getScore() {
         return score;
     }

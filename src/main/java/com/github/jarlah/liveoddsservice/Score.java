@@ -28,4 +28,9 @@ public class Score {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Score[homeTeam={name:'" + homeTeam.getName() + "',score:" + homeTeam.getScore() + "},awayTeam={name:'" + awayTeam.getName() + ",score:" + awayTeam.getScore() +"}]";
+    }
 }
