@@ -11,8 +11,8 @@ public class Team {
         this.score = score;
     }
 
-    public Team(@NotNull Team team, Integer score) {
-        this(team.name, score);
+    public Team(@NotNull Team team, Integer newScore) {
+        this(team.name, newScore);
     }
 
     public Integer getScore() {

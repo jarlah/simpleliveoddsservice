@@ -11,5 +11,11 @@ class Main {
         System.out.println(score1);
         var score2 = scoreRepository.updateScore(score1.getId(), new Team(brazil, 1), norway);
         System.out.println(score2);
+        scoreRepository.getStore(score2.getId());
+        var deletedScore = scoreRepository.deleteScore(score2.getId());
+        System.out.println(deletedScore);
+        if (scoreRepository.getStore(score2.getId()).isPresent()) {
+            throw new RuntimeException();
+        }
     }
 }

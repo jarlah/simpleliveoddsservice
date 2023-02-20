@@ -1,6 +1,7 @@
 package com.github.jarlah.liveoddsservice;
 
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      */
     @Override
     public synchronized Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException {
-        Score scoreToUpdate = getScore(scoreId);
+        Score scoreToUpdate = unsafeGetScore(scoreId);
         Score newScore = new Score(scoreId, homeTeam, awayTeam);
         this.scores.set(this.scores.indexOf(scoreToUpdate), newScore);
         return newScore;
@@ -59,9 +60,14 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      */
     @Override
     public Score deleteScore(Integer scoreId) throws ScoreNotFoundException {
-        Score scoreToDelete = getScore(scoreId);
+        Score scoreToDelete = unsafeGetScore(scoreId);
         this.scores.remove(scoreToDelete);
         return scoreToDelete;
+    }
+
+    @Override
+    public Optional<Score> getStore(Integer scoreId) {
+        return getMaybeScore(scoreId);
     }
 
     /**
@@ -71,13 +77,18 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * @return The score
      * @throws ScoreNotFoundException throws if not found
      */
-    private Score getScore(Integer scoreId) throws ScoreNotFoundException {
-        Optional<Score> maybeScore = this.scores.stream()
-                .filter(score -> score.getId().equals(scoreId))
-                .findFirst();
+    private Score unsafeGetScore(Integer scoreId) throws ScoreNotFoundException {
+        Optional<Score> maybeScore = getMaybeScore(scoreId);
         if (maybeScore.isEmpty()) {
             throw new ScoreNotFoundException(scoreId);
         }
         return maybeScore.get();
+    }
+
+    @NotNull
+    private Optional<Score> getMaybeScore(Integer scoreId) {
+        return this.scores.stream()
+                .filter(score -> score.getId().equals(scoreId))
+                .findFirst();
     }
 }

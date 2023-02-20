@@ -27,9 +27,11 @@ public class ScoreRepositoryTest {
     @SuppressWarnings("SameParameterValue")
     private static void testScoreUpdated(Score score, Team homeTeam, Team awayTeam, int scoreId, int homeTeamScore, int awayTeamScore) {
         assertEquals(score.getId(), scoreId);
+
         assertEquals(score.getHomeTeam().getScore(), homeTeamScore);
         assertEquals(score.getHomeTeam().getName(), homeTeam.getName());
         assertEquals(score.getHomeTeam().getScore(), homeTeam.getScore());
+
         assertEquals(score.getAwayTeam().getScore(), awayTeamScore);
         assertEquals(score.getAwayTeam().getName(), awayTeam.getName());
         assertEquals(score.getAwayTeam().getScore(), awayTeam.getScore());
