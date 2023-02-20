@@ -1,24 +1,26 @@
 package com.github.jarlah.liveoddsservice;
 
-import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
+import org.apache.commons.lang3.StringUtils;
 
 class Main {
-    public static void main(String[] args) throws ScoreNotFoundException {
+    public static void main(String[] args) {
         var scoreRepository = new ScoreRepositoryMemoryImpl();
-        var brazil = new Team("Brazil", 0);
-        var norway = new Team("Norway", 1);
-        var score1 = scoreRepository.addScore(brazil, norway);
-        System.out.println(score1);
-        var score2 = scoreRepository.updateScore(score1.id(), new Team(brazil.name(), 1), norway);
-        System.out.println(score2);
-        scoreRepository.getStore(score2.id());
-        var deletedScore = scoreRepository.deleteScore(score2.id());
-        System.out.println(deletedScore);
-        if (scoreRepository.getStore(score2.id()).isPresent()) {
-            throw new RuntimeException();
-        }
-        if (scoreRepository.getAllScores().size() > 0) {
-            throw new RuntimeException();
-        }
+        var mexico = new Team("Mexico", 0);
+        var canada = new Team("Canada", 5);
+        scoreRepository.addScore(mexico, canada);
+        var spain = new Team("Spain", 10);
+        var brazil = new Team("Brazil", 2);
+        scoreRepository.addScore(spain, brazil);
+        var germany = new Team("Germany", 2);
+        var france = new Team("France", 2);
+        scoreRepository.addScore(germany, france);
+        var uruguay = new Team("Uruguay", 6);
+        var italy = new Team("Italy", 6);
+        scoreRepository.addScore(uruguay, italy);
+        var argentina = new Team("Argentina", 3);
+        var australia = new Team("Australia", 1);
+        scoreRepository.addScore(argentina, australia);
+        System.out.println(StringUtils.join(scoreRepository.getAllScores(), "\n"));
+
     }
 }
