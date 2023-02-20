@@ -9,12 +9,12 @@ class Main {
         var norway = new Team("Norway", 1);
         var score1 = scoreRepository.addScore(brazil, norway);
         System.out.println(score1);
-        var score2 = scoreRepository.updateScore(score1.getId(), new Team(brazil, 1), norway);
+        var score2 = scoreRepository.updateScore(score1.id(), new Team(brazil.name(), 1), norway);
         System.out.println(score2);
-        scoreRepository.getStore(score2.getId());
-        var deletedScore = scoreRepository.deleteScore(score2.getId());
+        scoreRepository.getStore(score2.id());
+        var deletedScore = scoreRepository.deleteScore(score2.id());
         System.out.println(deletedScore);
-        if (scoreRepository.getStore(score2.getId()).isPresent()) {
+        if (scoreRepository.getStore(score2.id()).isPresent()) {
             throw new RuntimeException();
         }
     }

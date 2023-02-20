@@ -88,7 +88,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     @NotNull
     private Optional<Score> getMaybeScore(Integer scoreId) {
         return this.scores.stream()
-                .filter(score -> score.getId().equals(scoreId))
+                .filter(score -> score.id().equals(scoreId))
                 .findFirst();
     }
 }

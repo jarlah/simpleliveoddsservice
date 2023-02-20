@@ -16,8 +16,8 @@ public class ScoreRepositoryTest {
 
         // When:
         var score1 = scoreRepository.addScore(brazil, norway);
-        var updatedBrazil = new Team(brazil, 1);
-        var score2 = scoreRepository.updateScore(score1.getId(), updatedBrazil, norway);
+        var updatedBrazil = new Team(brazil.name(), 1);
+        var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil, norway);
 
         // Then:
         testScoreUpdated(score1, brazil, norway, 1, 0, 1);
@@ -26,14 +26,14 @@ public class ScoreRepositoryTest {
 
     @SuppressWarnings("SameParameterValue")
     private static void testScoreUpdated(Score score, Team homeTeam, Team awayTeam, int scoreId, int homeTeamScore, int awayTeamScore) {
-        assertEquals(score.getId(), scoreId);
+        assertEquals(score.id(), scoreId);
 
-        assertEquals(score.getHomeTeam().getScore(), homeTeamScore);
-        assertEquals(score.getHomeTeam().getName(), homeTeam.getName());
-        assertEquals(score.getHomeTeam().getScore(), homeTeam.getScore());
+        assertEquals(score.homeTeam().score(), homeTeamScore);
+        assertEquals(score.homeTeam().name(), homeTeam.name());
+        assertEquals(score.homeTeam().score(), homeTeam.score());
 
-        assertEquals(score.getAwayTeam().getScore(), awayTeamScore);
-        assertEquals(score.getAwayTeam().getName(), awayTeam.getName());
-        assertEquals(score.getAwayTeam().getScore(), awayTeam.getScore());
+        assertEquals(score.awayTeam().score(), awayTeamScore);
+        assertEquals(score.awayTeam().name(), awayTeam.name());
+        assertEquals(score.awayTeam().score(), awayTeam.score());
     }
 }
