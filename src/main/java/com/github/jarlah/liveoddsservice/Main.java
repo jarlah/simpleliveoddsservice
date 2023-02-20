@@ -2,7 +2,7 @@ package com.github.jarlah.liveoddsservice;
 
 import org.apache.commons.lang3.StringUtils;
 
-class Main {
+public class Main {
     public static void main(String[] args) {
         var repo = new ScoreRepositoryMemoryImpl();
         addScore(repo, "Mexico", 0, "Canada", 5);
