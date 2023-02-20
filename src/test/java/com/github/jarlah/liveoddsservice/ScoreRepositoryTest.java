@@ -2,10 +2,6 @@ package com.github.jarlah.liveoddsservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.github.jarlah.liveoddsservice.Score;
-import com.github.jarlah.liveoddsservice.ScoreRepository;
-import com.github.jarlah.liveoddsservice.ScoreRepositoryMemoryImpl;
-import com.github.jarlah.liveoddsservice.Team;
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
