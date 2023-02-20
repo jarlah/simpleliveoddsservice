@@ -29,8 +29,8 @@ public class ScoreRepositoryTest {
         var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil, norway);
 
         // Then:
-        testScoreUpdated(score1, brazil, norway, 1, 0, 1);
-        testScoreUpdated(score2, updatedBrazil, norway, 1, 1, 1);
+        assertScore(score1, brazil, norway, 1, 0, 1);
+        assertScore(score2, updatedBrazil, norway, 1, 1, 1);
     }
 
     @Test
@@ -46,8 +46,25 @@ public class ScoreRepositoryTest {
         assertEquals(Optional.empty(), scoreRepository.getStore(score.id()));
     }
 
+    @Test
+    public void addMultipleScores() {
+        // Given:
+        var sweden = new Team("Sweden", 2);
+        var germany = new Team("Germany", 3);
+        var brazil = new Team("Brazil", 4);
+        var norway = new Team("Norway", 1);
+
+        // When:
+        var score1 = scoreRepository.addScore(sweden, germany);
+        var score2 = scoreRepository.addScore(brazil, norway);
+
+        // Then:
+        assertScore(score1, sweden, germany, 1, 2, 3);
+        assertScore(score2, brazil, norway, 2, 4, 1);
+    }
+
     @SuppressWarnings("SameParameterValue")
-    private static void testScoreUpdated(Score score, Team homeTeam, Team awayTeam, int scoreId, int homeTeamScore, int awayTeamScore) {
+    private static void assertScore(Score score, Team homeTeam, Team awayTeam, int scoreId, int homeTeamScore, int awayTeamScore) {
         assertEquals(score.id(), scoreId);
         assertScoreTeam(score.homeTeam(), homeTeamScore, homeTeam);
         assertScoreTeam(score.awayTeam(), awayTeamScore, awayTeam);
