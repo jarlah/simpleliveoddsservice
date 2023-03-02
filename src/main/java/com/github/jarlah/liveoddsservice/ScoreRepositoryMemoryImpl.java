@@ -30,7 +30,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
 
     /**
      * In a real world scenario, with a database, I would have used a transaction,
-     * optimally using SELECT FOR READ pattern, in for ex Postgres.
+     * optimally using SELECT FOR UPDATE pattern, in for ex Postgres.
      * But this is in-memory and NOT memory safe, and method is therefore synchronized.
      * Synchronizing methods like this is not a good pattern, but will work for now.
      *
