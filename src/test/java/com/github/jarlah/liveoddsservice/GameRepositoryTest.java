@@ -3,7 +3,7 @@ package com.github.jarlah.liveoddsservice;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.github.jarlah.liveoddsservice.exceptions.SameTeamAdded;
-import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
+import com.github.jarlah.liveoddsservice.exceptions.GameNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
-public class ScoreRepositoryTest {
+public class GameRepositoryTest {
 
-    private ScoreRepository scoreRepository;
+    private GameRepository gameRepository;
 
     @BeforeEach
     public void init() {
-        scoreRepository = new ScoreRepositoryMemoryImpl();
+        gameRepository = new GameRepositoryMemoryImpl();
     }
 
     @Test
@@ -28,7 +28,7 @@ public class ScoreRepositoryTest {
 
         // When:
         var exception = Assertions.assertThrows(SameTeamAdded.class, () -> {
-            scoreRepository.addScore(team1, team2);
+            gameRepository.addGame(team1, team2);
         });
 
         // Then:
@@ -36,36 +36,36 @@ public class ScoreRepositoryTest {
     }
 
     @Test
-    public void addAndUpdateScore() throws ScoreNotFoundException, SameTeamAdded {
+    public void addAndUpdateScore() throws GameNotFoundException, SameTeamAdded {
         // Given:
         var brazil = new Team("Brazil", 0);
         var norway = new Team("Norway", 1);
 
         // When:
-        var score1 = scoreRepository.addScore(brazil, norway);
+        var score1 = gameRepository.addGame(brazil, norway);
         var updatedBrazil = brazil.withScore(brazil.score() + 1);
-        var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil.score(), norway.score());
+        var score2 = gameRepository.updateGame(score1.id(), updatedBrazil.score(), norway.score());
 
         // Then:
         assertScore(score1, brazil, norway, 1, 0, 1);
         assertScore(score2, updatedBrazil, norway, 1, 1, 1);
-        assertEquals(1, scoreRepository.getAllScores().size());
+        assertEquals(1, gameRepository.getAllGames().size());
     }
 
     @Test
-    public void addAndDelete() throws ScoreNotFoundException, SameTeamAdded {
+    public void addAndDelete() throws GameNotFoundException, SameTeamAdded {
         // Given:
         var sweden = new Team("Sweden", 2);
         var germany = new Team("Germany", 3);
 
         // When:
-        var score = scoreRepository.addScore(sweden, germany);
-        scoreRepository.deleteScore(score.id());
+        var score = gameRepository.addGame(sweden, germany);
+        gameRepository.deleteGame(score.id());
 
         // Then:
         assertScoreTeam(score.homeTeam(), 2, sweden);
-        assertEquals(Optional.empty(), scoreRepository.getStore(score.id()));
-        assertEquals(0, scoreRepository.getAllScores().size());
+        assertEquals(Optional.empty(), gameRepository.getGame(score.id()));
+        assertEquals(0, gameRepository.getAllGames().size());
     }
 
     @Test
@@ -77,14 +77,14 @@ public class ScoreRepositoryTest {
         var norway = new Team("Norway", 1);
 
         // When:
-        var score1 = addScore(scoreRepository, sweden.name(), sweden.score(), germany.name(), germany.score());
-        var score2 = addScore(scoreRepository, brazil.name(), brazil.score(), norway.name(), norway.score());
+        var score1 = addScore(gameRepository, sweden.name(), sweden.score(), germany.name(), germany.score());
+        var score2 = addScore(gameRepository, brazil.name(), brazil.score(), norway.name(), norway.score());
 
         // Then:
         assertScore(score1, sweden, germany, 1, 2, 3);
         assertScore(score2, brazil, norway, 2, 4, 1);
         // Make sure we can get back all the scores in inserted order
-        var allScores = scoreRepository.getAllScores();
+        var allScores = gameRepository.getAllGames();
         assertEquals(2, allScores.size());
         assertScore(allScores.get(0), sweden, germany, 1, 2, 3);
         assertScore(allScores.get(1), brazil, norway, 2, 4, 1);
@@ -105,32 +105,32 @@ public class ScoreRepositoryTest {
         var australia = new Team("Australia", 1);
 
         // When:
-        scoreRepository.addScore(mexico.name(), mexico.score(), canada.name(), canada.score());
-        scoreRepository.addScore(spain.name(), spain.score(), brazil.name(), brazil.score());
-        scoreRepository.addScore(germany.name(), germany.score(), france.name(), france.score());
-        scoreRepository.addScore(uruguay.name(), uruguay.score(), italy.name(), italy.score());
-        scoreRepository.addScore(argentina.name(), argentina.score(), australia.name(), australia.score());
+        gameRepository.addGame(mexico.name(), mexico.score(), canada.name(), canada.score());
+        gameRepository.addGame(spain.name(), spain.score(), brazil.name(), brazil.score());
+        gameRepository.addGame(germany.name(), germany.score(), france.name(), france.score());
+        gameRepository.addGame(uruguay.name(), uruguay.score(), italy.name(), italy.score());
+        gameRepository.addGame(argentina.name(), argentina.score(), australia.name(), australia.score());
 
         // Then:
-        List<Score> sortedScores = scoreRepository.getAllScoresSorted();
-        assertScore(sortedScores.get(0), uruguay, italy, 4, 6, 6);
-        assertScore(sortedScores.get(1), spain, brazil, 2, 10, 2);
-        assertScore(sortedScores.get(2), mexico, canada, 1, 0, 5);
-        assertScore(sortedScores.get(3), argentina, australia, 5, 3, 1);
-        assertScore(sortedScores.get(4), germany, france, 3, 2, 2);
+        List<Game> sortedGames = gameRepository.getAllGamesSorted();
+        assertScore(sortedGames.get(0), uruguay, italy, 4, 6, 6);
+        assertScore(sortedGames.get(1), spain, brazil, 2, 10, 2);
+        assertScore(sortedGames.get(2), mexico, canada, 1, 0, 5);
+        assertScore(sortedGames.get(3), argentina, australia, 5, 3, 1);
+        assertScore(sortedGames.get(4), germany, france, 3, 2, 2);
     }
 
-    private static Score addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) throws SameTeamAdded {
+    private static Game addScore(GameRepository gameRepository, String homeName, int homeScore, String awayName, int awayScore) throws SameTeamAdded {
         var homeTeam = new Team(homeName, homeScore);
         var awayTeam = new Team(awayName, awayScore);
-        return scoreRepository.addScore(homeTeam, awayTeam);
+        return gameRepository.addGame(homeTeam, awayTeam);
     }
 
     @SuppressWarnings("SameParameterValue")
-    private static void assertScore(Score score, Team homeTeam, Team awayTeam, int scoreId, int homeTeamScore, int awayTeamScore) {
-        assertEquals(score.id(), scoreId);
-        assertScoreTeam(score.homeTeam(), homeTeamScore, homeTeam);
-        assertScoreTeam(score.awayTeam(), awayTeamScore, awayTeam);
+    private static void assertScore(Game game, Team homeTeam, Team awayTeam, int gameId, int homeTeamScore, int awayTeamScore) {
+        assertEquals(game.id(), gameId);
+        assertScoreTeam(game.homeTeam(), homeTeamScore, homeTeam);
+        assertScoreTeam(game.awayTeam(), awayTeamScore, awayTeam);
     }
 
     private static void assertScoreTeam(Team scoreTeam, int score, Team team) {

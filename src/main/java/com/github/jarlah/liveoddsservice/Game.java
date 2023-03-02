@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Jarl André Hübenthal
  */
-public record Score(Integer id, Team homeTeam, Team awayTeam) {
+public record Game(Integer id, Team homeTeam, Team awayTeam) {
     public @NotNull Integer totalScore() {
         return homeTeam.score() + awayTeam.score();
     }

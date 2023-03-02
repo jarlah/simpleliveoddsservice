@@ -1,7 +1,7 @@
 package com.github.jarlah.liveoddsservice.exceptions;
 
-public class ScoreNotFoundException extends Exception {
-    public ScoreNotFoundException(Integer id) {
+public class GameNotFoundException extends Exception {
+    public GameNotFoundException(Integer id) {
         super("Score was not found: %s".formatted(id));
     }
 }
