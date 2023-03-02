@@ -32,7 +32,7 @@ public class ScoreRepositoryTest {
         });
 
         // Then:
-        assertEquals("Cannot add same team twice", exception.getMessage());
+        assertEquals("Cannot add same team twice: Team", exception.getMessage());
     }
 
     @Test

@@ -24,7 +24,7 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     @Override
     public Score addScore(Team homeTeam, Team awayTeam) throws SameTeamAdded {
         if (homeTeam.equals(awayTeam)) {
-            throw new SameTeamAdded();
+            throw new SameTeamAdded(homeTeam);
         }
         var nextId = this.atomicId.addAndGet(1);
         var score = new Score(nextId, homeTeam, awayTeam);
