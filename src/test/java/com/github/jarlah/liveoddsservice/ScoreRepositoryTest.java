@@ -1,7 +1,9 @@
 package com.github.jarlah.liveoddsservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import com.github.jarlah.liveoddsservice.exceptions.SameTeamAdded;
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,21 @@ public class ScoreRepositoryTest {
     }
 
     @Test
-    public void addAndUpdateScore() throws ScoreNotFoundException {
+    public void addTwoIdenticalTeams() {
+        // Given:
+        var team1 = new Team("Team", 1);
+        var team2 = new Team("Team", 2);
+
+        // When:
+        try {
+            var score = scoreRepository.addScore(team1, team2);
+            fail("Should not be possible same team");
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Test
+    public void addAndUpdateScore() throws ScoreNotFoundException, SameTeamAdded {
         // Given:
         var brazil = new Team("Brazil", 0);
         var norway = new Team("Norway", 1);
@@ -36,21 +52,23 @@ public class ScoreRepositoryTest {
     }
 
     @Test
-    public void addAndDelete() throws ScoreNotFoundException {
+    public void addAndDelete() throws ScoreNotFoundException, SameTeamAdded {
         // Given:
         var sweden = new Team("Sweden", 2);
         var germany = new Team("Germany", 3);
 
         // When:
         var score = scoreRepository.addScore(sweden, germany);
-        assertScoreTeam(score.homeTeam(), 2, sweden);
         scoreRepository.deleteScore(score.id());
+
+        // Then:
+        assertScoreTeam(score.homeTeam(), 2, sweden);
         assertEquals(Optional.empty(), scoreRepository.getStore(score.id()));
         assertEquals(0, scoreRepository.getAllScores().size());
     }
 
     @Test
-    public void addMultipleScores() {
+    public void addMultipleScores() throws SameTeamAdded {
         // Given:
         var sweden = new Team("Sweden", 2);
         var germany = new Team("Germany", 3);
@@ -72,7 +90,7 @@ public class ScoreRepositoryTest {
     }
 
     @Test
-    public void returnsSortedScoresAsPerSpecification() {
+    public void returnsSortedScoresAsPerSpecification() throws SameTeamAdded {
         // Given:
         var uruguay = new Team("Uruguay", 6);
         var italy = new Team("Italy", 6);
@@ -101,7 +119,7 @@ public class ScoreRepositoryTest {
         assertScore(sortedScores.get(4), germany, france, 3, 2, 2);
     }
 
-    private static Score addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) {
+    private static Score addScore(ScoreRepository scoreRepository, String homeName, int homeScore, String awayName, int awayScore) throws SameTeamAdded {
         var homeTeam = new Team(homeName, homeScore);
         var awayTeam = new Team(awayName, awayScore);
         return scoreRepository.addScore(homeTeam, awayTeam);

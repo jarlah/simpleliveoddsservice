@@ -1,5 +1,6 @@
 package com.github.jarlah.liveoddsservice;
 
+import com.github.jarlah.liveoddsservice.exceptions.SameTeamAdded;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Jarl André Hübenthal
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SameTeamAdded {
         var repo = new ScoreRepositoryMemoryImpl();
         repo.addScore("Mexico", 0, "Canada", 5);
         repo.addScore("Spain", 10, "Brazil", 2);

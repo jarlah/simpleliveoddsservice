@@ -1,5 +1,6 @@
 package com.github.jarlah.liveoddsservice;
 
+import com.github.jarlah.liveoddsservice.exceptions.SameTeamAdded;
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,10 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
     }
 
     @Override
-    public Score addScore(Team homeTeam, Team awayTeam) {
+    public Score addScore(Team homeTeam, Team awayTeam) throws SameTeamAdded {
+        if (homeTeam.equals(awayTeam)) {
+            throw new SameTeamAdded();
+        }
         var nextId = this.atomicId.addAndGet(1);
         var score = new Score(nextId, homeTeam, awayTeam);
         this.scores.add(score);
