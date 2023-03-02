@@ -1,10 +1,10 @@
 package com.github.jarlah.liveoddsservice;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.jarlah.liveoddsservice.exceptions.SameTeamAdded;
 import com.github.jarlah.liveoddsservice.exceptions.ScoreNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,11 +27,12 @@ public class ScoreRepositoryTest {
         var team2 = new Team("Team", 2);
 
         // When:
-        try {
-            var score = scoreRepository.addScore(team1, team2);
-            fail("Should not be possible same team");
-        } catch (Exception ignored) {
-        }
+        var exception = Assertions.assertThrows(SameTeamAdded.class, () -> {
+            scoreRepository.addScore(team1, team2);
+        });
+
+        // Then:
+        assertEquals("Cannot add same team twice", exception.getMessage());
     }
 
     @Test
