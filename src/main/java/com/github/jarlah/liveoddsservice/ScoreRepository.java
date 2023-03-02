@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public interface ScoreRepository {
     Score addScore(Team homeTeam, Team awayTeam) throws SameTeamAdded;
-    Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException;
+    Score updateScore(Integer scoreId, Integer homeTeam, Integer awayTeam) throws ScoreNotFoundException;
     Score deleteScore(Integer scoreId) throws ScoreNotFoundException;
     Optional<Score> getStore(Integer scoreId);
     List<Score> getAllScores();

@@ -45,9 +45,9 @@ public class ScoreRepositoryMemoryImpl implements ScoreRepository {
      * @throws ScoreNotFoundException exception is thrown if scoreId is not found
      */
     @Override
-    public synchronized Score updateScore(Integer scoreId, Team homeTeam, Team awayTeam) throws ScoreNotFoundException {
+    public synchronized Score updateScore(Integer scoreId, Integer homeTeam, Integer awayTeam) throws ScoreNotFoundException {
         var scoreToUpdate = unsafeGetScore(scoreId);
-        var newScore = new Score(scoreId, homeTeam, awayTeam);
+        var newScore = new Score(scoreId, scoreToUpdate.homeTeam().withScore(homeTeam), scoreToUpdate.awayTeam().withScore(awayTeam));
         var scoreIndex = this.scores.indexOf(scoreToUpdate);
         this.scores.set(scoreIndex, newScore);
         return newScore;

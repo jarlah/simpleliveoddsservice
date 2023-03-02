@@ -43,8 +43,8 @@ public class ScoreRepositoryTest {
 
         // When:
         var score1 = scoreRepository.addScore(brazil, norway);
-        var updatedBrazil = brazil.withScore(1);
-        var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil, norway);
+        var updatedBrazil = brazil.withScore(brazil.score() + 1);
+        var score2 = scoreRepository.updateScore(score1.id(), updatedBrazil.score(), norway.score());
 
         // Then:
         assertScore(score1, brazil, norway, 1, 0, 1);
